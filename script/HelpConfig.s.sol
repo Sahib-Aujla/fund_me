@@ -17,7 +17,8 @@ contract HelpConfig is Script {
     }
 
     function sepoliaConfig() public pure returns (Help memory) {
-        return Help(0x694AA1769357215DE4FAC081bf1f309aDC325306);
+        Help memory h = Help(0x694AA1769357215DE4FAC081bf1f309aDC325306);
+        return h;
     }
 
     function anvilConfig() public pure returns (Help memory) {
