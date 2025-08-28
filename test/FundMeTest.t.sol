@@ -17,8 +17,8 @@ contract FundMeTest is Test {
         assertEq(fundMe.MINIMUM_USD(), 5 * 10 ** 18);
     }
 
-    function testGetVersion() public view{
-        uint p = fundMe.getVersion();
+    function testGetVersion() public view {
+        uint256 p = fundMe.getVersion();
         assertEq(p, 4);
     }
 }
