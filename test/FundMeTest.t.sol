@@ -54,13 +54,30 @@ contract FundMeTest is Test {
         uint256 endingContractBalance = address(fundMe).balance;
 
         assertEq(endingContractBalance, 0);
-        assertEq(
-            startingOwnerBalance + startingContractBalance,
-            endingOwnerBalance
-        );
+        assertEq(startingOwnerBalance + startingContractBalance, endingOwnerBalance);
     }
 
-    function testOwner() external view{
+    function testOwner() external view {
         assertEq(fundMe.i_owner(), msg.sender);
+    }
+
+    function testReceive() external {
+        vm.prank(USER);
+        (bool success,) = address(fundMe).call{value: 1 ether}("");
+        require(success, "Call failed");
+
+        // Verify the funding was recorded
+        assertEq(fundMe.addressToAmountFunded(USER), 1 ether);
+        assertEq(address(fundMe).balance, 1 ether);
+    }
+
+    function testFallback() external {
+        vm.prank(USER);
+        (bool success,) = address(fundMe).call{value: 1 ether}("abcd");
+        require(success, "Call failed");
+
+        // Verify the funding was recorded
+        assertEq(fundMe.addressToAmountFunded(USER), 1 ether);
+        assertEq(address(fundMe).balance, 1 ether);
     }
 }
